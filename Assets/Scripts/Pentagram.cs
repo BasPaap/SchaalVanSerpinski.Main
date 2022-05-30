@@ -13,18 +13,27 @@ public class Pentagram : MonoBehaviour
     }
     private void OnEnable()
     {
-        Controls.PentagramTriggered += Controls_PentagramTriggered;
+        Controls.PentagramStartTriggered += Controls_PentagramStartTriggered;
+        Controls.PentagramEndTriggered += Controls_PentagramEndTriggered;
     }
 
     private void OnDisable()
     {
-        Controls.PentagramTriggered -= Controls_PentagramTriggered;
+        Controls.PentagramStartTriggered -= Controls_PentagramStartTriggered;
+        Controls.PentagramEndTriggered -= Controls_PentagramEndTriggered;
     }
 
-    private void Controls_PentagramTriggered(object sender, System.EventArgs e)
+    private void Controls_PentagramStartTriggered(object sender, System.EventArgs e)
     {
-        Debug.Log("Sending pentagram command to hardware host");
-        HardwareHost.SendCommand(HardwareCommand.Pentagram);
+        Debug.Log("Sending pentagram start command to hardware host");
+        HardwareHost.SendCommand(HardwareCommand.PentagramStart);
+        audioSource.Play();
+    }
+
+    private void Controls_PentagramEndTriggered(object sender, System.EventArgs e)
+    {
+        Debug.Log("Sending pentagram end command to hardware host");
+        HardwareHost.SendCommand(HardwareCommand.PentagramEnd);
         audioSource.Play();
     }
 }

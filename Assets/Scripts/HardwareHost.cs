@@ -17,7 +17,8 @@ public class HardwareHost : MonoBehaviour
 
     private void Start()
     {
-        serialCommands.Add(HardwareCommand.Pentagram, "PENTAGRAM");
+        serialCommands.Add(HardwareCommand.PentagramStart, "PENTAGRAM_START");
+        serialCommands.Add(HardwareCommand.PentagramEnd, "PENTAGRAM_END");
 
         var settings = Settings.Load();
 
@@ -81,7 +82,6 @@ public class HardwareHost : MonoBehaviour
             }
         }
     }
-
 
     public static void SendCommand(HardwareCommand command)
     {
