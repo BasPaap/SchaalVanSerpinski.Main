@@ -7,9 +7,11 @@ using UnityEngine.Video;
 public class Video : MonoBehaviour
 {
     [SerializeField] private VideoClip defaultClip;
+    [SerializeField] private Controls controls;
     [SerializeField, Range(0, 5)] private float fadeInDuration;
     [SerializeField, Range(0, 5)] private float fadeOutDuration;
-    
+    [SerializeField, Range(0, 5)] private float pentagramStartOffset;
+        
     private VideoPlayer videoPlayer;
     private float? fadeInStartTime;
     private float? fadeOutStartTime;
@@ -27,7 +29,8 @@ public class Video : MonoBehaviour
     {
         if (string.IsNullOrEmpty(e.ClipName))
         {
-            PlayClip(defaultClip);
+            controls.TriggerPentagramStart();
+            this.Wait(pentagramStartOffset, () => PlayClip(defaultClip));
         }        
     }
 
@@ -64,6 +67,7 @@ public class Video : MonoBehaviour
         // record the current time to start it.
         if (isFadeOutDue)
         {
+            controls.TriggerPentagramEnd();
             fadeOutStartTime = Time.time;
         }
 

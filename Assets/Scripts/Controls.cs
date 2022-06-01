@@ -15,16 +15,26 @@ public class Controls : MonoBehaviour
     [SerializeField] private KeyCode toggleGongKey = KeyCode.G;
     [SerializeField] private KeyCode videoKey = KeyCode.V;
 
+    public void TriggerPentagramStart()
+    {
+        PentagramStartTriggered(this, EventArgs.Empty);
+    }
+
+    public void TriggerPentagramEnd()
+    {
+        PentagramEndTriggered(this, EventArgs.Empty);
+    }
+
     private void Update()
     {
         if (Input.GetKeyUp(pentagramStartKey) && PentagramStartTriggered != null)
         {
-            PentagramStartTriggered(this, EventArgs.Empty);
+            TriggerPentagramStart();
         }
 
         if (Input.GetKeyUp(pentagramEndKey) && PentagramEndTriggered != null)
         {
-            PentagramEndTriggered(this, EventArgs.Empty);
+            TriggerPentagramEnd();
         }
 
         if (Input.GetKeyUp(toggleGongKey) && GongTriggered != null)

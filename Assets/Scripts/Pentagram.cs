@@ -35,5 +35,5 @@ public class Pentagram : MonoBehaviour
         Debug.Log("Sending pentagram end command to hardware host");
         HardwareHost.SendCommand(HardwareCommand.PentagramEnd);
         audioSource.Play();
-    }
+    }    
 }

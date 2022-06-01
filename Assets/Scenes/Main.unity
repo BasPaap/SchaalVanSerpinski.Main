@@ -470,8 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultClip: {fileID: 32900000, guid: 86a42bc5c31520e42a8adac585163d3f, type: 3}
+  controls: {fileID: 2062033803}
   fadeInDuration: 1
   fadeOutDuration: 2
+  pentagramStartOffset: 1
 --- !u!1 &705840948
 GameObject:
   m_ObjectHideFlags: 0
