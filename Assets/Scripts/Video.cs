@@ -57,21 +57,12 @@ public class Video : MonoBehaviour
         // Handle fade in if necessary.
         if (fadeInStartTime.HasValue)
         {
-            var alphaValue = Mathf.InverseLerp(fadeInStartTime.Value, fadeInStartTime.Value + fadeInDuration, Time.time);
-            videoPlayer.targetCameraAlpha = alphaValue;
-            
-            if (alphaValue >= 1.0f)
-            {
-                fadeInStartTime = null;
-            }
-        }        
+            UpdateFadeIn();
+        }
 
         // If the video is visible and it is time for the fade out to start, 
         // record the current time to start it.
-        if (fadeOutDuration > 0 &&
-            videoPlayer.targetCameraAlpha > 0 && 
-            !fadeOutStartTime.HasValue && 
-            videoPlayer.time >= fadeOutStartTimeInClip)
+        if (isFadeOutDue)
         {
             fadeOutStartTime = Time.time;
         }
@@ -79,14 +70,37 @@ public class Video : MonoBehaviour
         // Handle the fade out if necessary.
         if (fadeOutStartTime.HasValue)
         {
-            var alphaValue = 1 - Mathf.InverseLerp(fadeOutStartTime.Value, fadeOutStartTime.Value + fadeOutDuration, Time.time);
-            videoPlayer.targetCameraAlpha = alphaValue;
+            UpdateFadeOut();
+        }
 
-            if (alphaValue <= 0.0f)
-            {
-                fadeOutStartTime = null;
-                videoPlayer.time = 0;
-            }
+        videoPlayer.SetDirectAudioVolume(0, videoPlayer.targetCameraAlpha);
+    }
+
+    private bool isFadeOutDue => fadeOutDuration > 0 &&
+                                 videoPlayer.targetCameraAlpha > 0 &&
+                                 !fadeOutStartTime.HasValue &&
+                                 videoPlayer.time >= fadeOutStartTimeInClip;
+    
+    private void UpdateFadeIn()
+    {
+        var alphaValue = Mathf.InverseLerp(fadeInStartTime.Value, fadeInStartTime.Value + fadeInDuration, Time.time);
+        videoPlayer.targetCameraAlpha = alphaValue;
+
+        if (alphaValue >= 1.0f)
+        {
+            fadeInStartTime = null;
+        }
+    }
+
+    private void UpdateFadeOut()
+    {
+        var alphaValue = 1 - Mathf.InverseLerp(fadeOutStartTime.Value, fadeOutStartTime.Value + fadeOutDuration, Time.time);
+        videoPlayer.targetCameraAlpha = alphaValue;
+
+        if (alphaValue <= 0.0f)
+        {
+            fadeOutStartTime = null;
+            videoPlayer.time = 0;
         }
     }
 }
