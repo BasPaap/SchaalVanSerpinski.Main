@@ -26,25 +26,31 @@ public class Gong : MonoBehaviour
     private void OnEnable()
     {
         Controls.GongTriggered += Controls_GongTriggered;
+        Controls.VideoTriggered += Controls_VideoTriggered;
         Controls.PentagramStartTriggered += Controls_OtherEffectTriggered;
         Controls.PentagramEndTriggered += Controls_OtherEffectTriggered;
     }
-    
+
     private void OnDisable()
     {
         Controls.GongTriggered -= Controls_GongTriggered;
+        Controls.VideoTriggered -= Controls_VideoTriggered;
         Controls.PentagramStartTriggered -= Controls_OtherEffectTriggered;
         Controls.PentagramEndTriggered -= Controls_OtherEffectTriggered;
     }
 
-    private void Controls_OtherEffectTriggered(object sender, System.EventArgs e)
-    {
-        isPlaying = false;
-    }
+    private void Controls_VideoTriggered(object sender, VideoTriggeredEventHandler e) => Stop();
+    private void Controls_OtherEffectTriggered(object sender, System.EventArgs e) => Stop();
 
     private void Controls_GongTriggered(object sender, System.EventArgs e)
     {
         isPlaying = !isPlaying;
+    }
+    
+
+    private void Stop()
+    {
+        isPlaying = false;
     }
 
     private void Update()
