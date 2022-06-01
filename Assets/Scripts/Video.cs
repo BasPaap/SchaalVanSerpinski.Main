@@ -41,7 +41,15 @@ public class Video : MonoBehaviour
         fadeOutStartTimeInClip = clip.length - fadeOutDuration;
         videoPlayer.clip = clip;
         videoPlayer.Play();
-        fadeInStartTime = Time.time;
+
+        if (fadeInDuration == 0)
+        {
+            videoPlayer.targetCameraAlpha = 1;
+        }
+        else
+        {
+            fadeInStartTime = Time.time;
+        }        
     }
 
     private void Update()
@@ -60,7 +68,8 @@ public class Video : MonoBehaviour
 
         // If the video is visible and it is time for the fade out to start, 
         // record the current time to start it.
-        if (videoPlayer.targetCameraAlpha > 0 && 
+        if (fadeOutDuration > 0 &&
+            videoPlayer.targetCameraAlpha > 0 && 
             !fadeOutStartTime.HasValue && 
             videoPlayer.time >= fadeOutStartTimeInClip)
         {

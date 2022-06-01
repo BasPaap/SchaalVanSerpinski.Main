@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -469,8 +469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660e85fad1bdf244680ae31c22cc797f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rippleMaterial: {fileID: 2100000, guid: 185057ed4b7377b459eef42682fc416e, type: 2}
   defaultClip: {fileID: 32900000, guid: 86a42bc5c31520e42a8adac585163d3f, type: 3}
+  fadeInDuration: 1
+  fadeOutDuration: 2
 --- !u!1 &705840948
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +850,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e835ca99bf5588b4da77312699af3257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pentagramKey: 112
+  pentagramStartKey: 112
+  pentagramEndKey: 91
   toggleGongKey: 103
   videoKey: 118
 --- !u!4 &2062033804
