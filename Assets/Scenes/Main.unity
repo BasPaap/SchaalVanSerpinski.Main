@@ -400,6 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 691770141}
   - component: {fileID: 691770142}
+  - component: {fileID: 691770143}
   m_Layer: 0
   m_Name: Video
   m_TagString: Untagged
@@ -429,7 +430,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691770140}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 86a42bc5c31520e42a8adac585163d3f, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 3c3e4b825247aed4d8f4f6f77c271458, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 705840950}
@@ -450,12 +451,26 @@ VideoPlayer:
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_SkipOnDrop: 1
-  m_Looping: 1
+  m_Looping: 0
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &691770143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691770140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 660e85fad1bdf244680ae31c22cc797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rippleMaterial: {fileID: 2100000, guid: 185057ed4b7377b459eef42682fc416e, type: 2}
+  defaultClip: {fileID: 32900000, guid: 86a42bc5c31520e42a8adac585163d3f, type: 3}
 --- !u!1 &705840948
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,6 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pentagramKey: 112
   toggleGongKey: 103
+  videoKey: 118
 --- !u!4 &2062033804
 Transform:
   m_ObjectHideFlags: 0
