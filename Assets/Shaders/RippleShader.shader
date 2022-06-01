@@ -1,10 +1,10 @@
-﻿Shader "Tmp/Ripple"
+﻿Shader "Serpinski/Ripple"
 {
 	Properties
 	{
 		_MainTex("Texture", 2D) = "white" {}
-		_CenterX("Center X", float) = 960
-		_CenterY("Center Y", float) = 540
+		_CenterX("Center X", float) = 0.5
+		_CenterY("Center Y", float) = 0.5
 		_Amount("Amount", float) = 25
 		_WaveSpeed("Wave Speed", range(.50, 50)) = 20
 		_WaveAmount("Wave Amount", range(0, 20)) = 10
@@ -52,10 +52,10 @@
 
 				fixed4 frag(v2f i) : SV_Target
 				{
-					fixed2 center = fixed2(_CenterX / _ScreenParams.x, _CenterY / _ScreenParams.y);
+					fixed2 center = fixed2(_CenterX, _CenterY);
 					fixed time = _Time.y *  _WaveSpeed;
 					fixed amt = _Amount / 1000;
-
+										
 					fixed2 uv = center.xy - i.uv;
 					uv.x *= _ScreenParams.x / _ScreenParams.y;
 
