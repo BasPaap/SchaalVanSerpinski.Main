@@ -13,7 +13,8 @@ public class Controls : MonoBehaviour
     [SerializeField] private KeyCode pentagramStartKey = KeyCode.P;
     [SerializeField] private KeyCode pentagramEndKey = KeyCode.LeftBracket;
     [SerializeField] private KeyCode toggleGongKey = KeyCode.G;
-    [SerializeField] private KeyCode videoKey = KeyCode.V;
+    [SerializeField] private KeyCode defaultVideoKey = KeyCode.V;
+    [SerializeField] private List<KeyCode> videoKeys;
 
     public void TriggerPentagramStart()
     {
@@ -27,6 +28,17 @@ public class Controls : MonoBehaviour
 
     private void Update()
     {
+        foreach (var keyCode in videoKeys)
+        {
+            if (Input.GetKeyUp(keyCode) && VideoTriggered != null)
+            {
+                var keyValue = keyCode.ToString()
+                                      .Replace("Alpha", string.Empty)
+                                      .Replace("Keypad", string.Empty);
+                VideoTriggered(this, new VideoTriggeredEventHandler(keyValue));
+            }
+        }        
+
         if (Input.GetKeyUp(pentagramStartKey) && PentagramStartTriggered != null)
         {
             TriggerPentagramStart();
@@ -42,7 +54,7 @@ public class Controls : MonoBehaviour
             GongTriggered(this, EventArgs.Empty);
         }
 
-        if (Input.GetKeyUp(videoKey) && VideoTriggered != null)
+        if (Input.GetKeyUp(defaultVideoKey) && VideoTriggered != null)
         {
             VideoTriggered(this, new VideoTriggeredEventHandler());
         }

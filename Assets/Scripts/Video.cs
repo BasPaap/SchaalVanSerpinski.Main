@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Video;
 
-[RequireComponent(typeof(VideoPlayer))] 
+[RequireComponent(typeof(VideoPlayer))]
 public class Video : MonoBehaviour
 {
     [SerializeField] private VideoClip defaultClip;
@@ -11,7 +13,7 @@ public class Video : MonoBehaviour
     [SerializeField, Range(0, 5)] private float fadeInDuration;
     [SerializeField, Range(0, 5)] private float fadeOutDuration;
     [SerializeField, Range(0, 5)] private float pentagramStartOffset;
-        
+
     private VideoPlayer videoPlayer;
     private float? fadeInStartTime;
     private float? fadeOutStartTime;
@@ -21,28 +23,48 @@ public class Video : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         videoPlayer.targetCameraAlpha = 0;
-
+        videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
         Controls.VideoTriggered += Controls_VideoTriggered;
+    }
+
+    private void VideoPlayer_prepareCompleted(VideoPlayer source)
+    {
+        controls.TriggerPentagramStart();
+        this.Wait(pentagramStartOffset, () => PlayClip());
     }
 
     private void Controls_VideoTriggered(object sender, VideoTriggeredEventHandler e)
     {
+        bool isVideoAvailable = false;
+
         if (string.IsNullOrEmpty(e.ClipName))
         {
-            controls.TriggerPentagramStart();
-            this.Wait(pentagramStartOffset, () => PlayClip(defaultClip));
-        }        
-    }
-
-    private void PlayClip(VideoClip clip)
-    {
-        if (clip == null)
+            videoPlayer.source = VideoSource.VideoClip;
+            videoPlayer.clip = defaultClip;
+            isVideoAvailable = true;
+        }
+        else
         {
-            return;
+            var fileName = $"{e.ClipName}.mp4";
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Serpinski", fileName);
+
+            if (File.Exists(filePath))
+            {
+                videoPlayer.source = VideoSource.Url;
+                videoPlayer.url = $"file://{filePath}";
+                isVideoAvailable = true;
+            }
         }
 
-        fadeOutStartTimeInClip = clip.length - fadeOutDuration;
-        videoPlayer.clip = clip;
+        if (isVideoAvailable)
+        {
+            videoPlayer.Prepare();
+        }
+    }
+
+    private void PlayClip()
+    {
+        fadeOutStartTimeInClip = videoPlayer.length - fadeOutDuration;
         videoPlayer.Play();
 
         if (fadeInDuration == 0)
@@ -52,7 +74,7 @@ public class Video : MonoBehaviour
         else
         {
             fadeInStartTime = Time.time;
-        }        
+        }
     }
 
     private void Update()
@@ -84,7 +106,7 @@ public class Video : MonoBehaviour
                                  videoPlayer.targetCameraAlpha > 0 &&
                                  !fadeOutStartTime.HasValue &&
                                  videoPlayer.time >= fadeOutStartTimeInClip;
-    
+
     private void UpdateFadeIn()
     {
         var alphaValue = Mathf.InverseLerp(fadeInStartTime.Value, fadeInStartTime.Value + fadeInDuration, Time.time);

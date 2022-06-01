@@ -430,7 +430,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691770140}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 3c3e4b825247aed4d8f4f6f77c271458, type: 3}
+  m_VideoClip: {fileID: 0}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 705840950}
@@ -855,7 +855,8 @@ MonoBehaviour:
   pentagramStartKey: 112
   pentagramEndKey: 91
   toggleGongKey: 103
-  videoKey: 118
+  defaultVideoKey: 118
+  videoKeys: 3000000031000000320000003300000034000000350000003600000037000000380000003900000071000000
 --- !u!4 &2062033804
 Transform:
   m_ObjectHideFlags: 0
