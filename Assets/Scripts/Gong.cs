@@ -17,12 +17,6 @@ public class Gong : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    private void Start()
-    {
-        var settings = Settings.Load();
-        gongInterval = settings.GongInterval;
-    }
-
     private void OnEnable()
     {
         Controls.GongTriggered += Controls_GongTriggered;
@@ -44,10 +38,12 @@ public class Gong : MonoBehaviour
 
     private void Controls_GongTriggered(object sender, System.EventArgs e)
     {
+        var settings = Settings.Load();
+        gongInterval = settings.GongInterval;
+
         isPlaying = !isPlaying;
     }
     
-
     private void Stop()
     {
         isPlaying = false;
