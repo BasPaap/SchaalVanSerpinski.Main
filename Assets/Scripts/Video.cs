@@ -29,6 +29,11 @@ public class Video : MonoBehaviour
 
     private void VideoPlayer_prepareCompleted(VideoPlayer source)
     {
+        StartPlayer();
+    }
+
+    private void StartPlayer()
+    {
         controls.TriggerPentagramStart();
         this.Wait(pentagramStartOffset, () => PlayClip());
     }
@@ -58,7 +63,14 @@ public class Video : MonoBehaviour
 
         if (isVideoAvailable)
         {
-            videoPlayer.Prepare();
+            if (videoPlayer.isPrepared)
+            {
+                StartPlayer();
+            }
+            else
+            {
+                videoPlayer.Prepare();
+            }
         }
     }
 
