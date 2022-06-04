@@ -150,6 +150,7 @@ public class Video : MonoBehaviour
         if (alphaValue <= 0.0f)
         {
             fadeOutStartTime = null;
+            videoPlayer.Stop();
             videoPlayer.time = 0;
         }
     }
