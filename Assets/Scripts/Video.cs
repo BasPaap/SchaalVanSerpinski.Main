@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Video;
 
 [RequireComponent(typeof(VideoPlayer))]
@@ -10,19 +11,24 @@ public class Video : MonoBehaviour
 {
     [SerializeField] private VideoClip defaultClip;
     [SerializeField] private Controls controls;
+    [SerializeField] private RawImage rawImage;
     [SerializeField, Range(0, 5)] private float fadeInDuration;
     [SerializeField, Range(0, 5)] private float fadeOutDuration;
     [SerializeField, Range(0, 5)] private float pentagramStartOffset;
 
     private VideoPlayer videoPlayer;
+    private RenderTexture renderTexture;
     private float? fadeInStartTime;
     private float? fadeOutStartTime;
     private double fadeOutStartTimeInClip;
 
     private void Awake()
     {
+        renderTexture = new RenderTexture(Camera.main.pixelWidth, Camera.main.pixelHeight, 0);
         videoPlayer = GetComponent<VideoPlayer>();
-        videoPlayer.targetCameraAlpha = 0;
+        videoPlayer.targetTexture = renderTexture;
+        rawImage.texture = renderTexture;
+        rawImage.color = Color.clear;
         videoPlayer.prepareCompleted += VideoPlayer_prepareCompleted;
         Controls.VideoTriggered += Controls_VideoTriggered;
     }
@@ -81,7 +87,7 @@ public class Video : MonoBehaviour
 
         if (fadeInDuration == 0)
         {
-            videoPlayer.targetCameraAlpha = 1;
+            rawImage.color = Color.white;
         }
         else
         {
@@ -111,18 +117,18 @@ public class Video : MonoBehaviour
             UpdateFadeOut();
         }
 
-        videoPlayer.SetDirectAudioVolume(0, videoPlayer.targetCameraAlpha);
+        videoPlayer.SetDirectAudioVolume(0, rawImage.color.a);
     }
 
     private bool isFadeOutDue => fadeOutDuration > 0 &&
-                                 videoPlayer.targetCameraAlpha > 0 &&
+                                 rawImage.color.a > 0 &&
                                  !fadeOutStartTime.HasValue &&
                                  videoPlayer.time >= fadeOutStartTimeInClip;
 
     private void UpdateFadeIn()
     {
         var alphaValue = Mathf.InverseLerp(fadeInStartTime.Value, fadeInStartTime.Value + fadeInDuration, Time.time);
-        videoPlayer.targetCameraAlpha = alphaValue;
+        rawImage.color = new Color(1, 1, 1, alphaValue);
 
         if (alphaValue >= 1.0f)
         {
@@ -133,7 +139,7 @@ public class Video : MonoBehaviour
     private void UpdateFadeOut()
     {
         var alphaValue = 1 - Mathf.InverseLerp(fadeOutStartTime.Value, fadeOutStartTime.Value + fadeOutDuration, Time.time);
-        videoPlayer.targetCameraAlpha = alphaValue;
+        rawImage.color = new Color(1, 1, 1, alphaValue);
 
         if (alphaValue <= 0.0f)
         {
