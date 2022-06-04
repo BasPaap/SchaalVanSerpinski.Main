@@ -475,7 +475,7 @@ MonoBehaviour:
   rawImage: {fileID: 942641912}
   fadeInDuration: 1
   fadeOutDuration: 2
-  pentagramStartOffset: 1
+  pentagramStartOffset: 3
 --- !u!1 &705840948
 GameObject:
   m_ObjectHideFlags: 0
