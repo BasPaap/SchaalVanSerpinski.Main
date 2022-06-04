@@ -16,6 +16,11 @@ public class Controls : MonoBehaviour
     [SerializeField] private KeyCode defaultVideoKey = KeyCode.V;
     [SerializeField] private List<KeyCode> videoKeys;
 
+    private void Awake()
+    {
+        Cursor.visible = false;
+    }
+
     public void TriggerPentagramStart()
     {
         PentagramStartTriggered(this, EventArgs.Empty);
