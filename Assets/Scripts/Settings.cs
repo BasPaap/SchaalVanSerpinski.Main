@@ -13,6 +13,8 @@ public class Settings
     public int BaudRate { get; set; } = 9600;
 
     public float GongInterval { get; set; } = 3.0f;
+
+    public bool RandomizeVideoRotation { get; set; } = false;
    
     private static string SettingsDirectoryPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), directoryName);
     private static string FullPath => Path.Combine(SettingsDirectoryPath, fileName);

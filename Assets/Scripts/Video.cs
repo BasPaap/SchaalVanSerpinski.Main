@@ -40,6 +40,12 @@ public class Video : MonoBehaviour
 
     private void StartPlayer()
     {
+        var settings = Settings.Load();
+        if (settings.RandomizeVideoRotation)
+        {
+            rawImage.transform.rotation = Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360));
+        }
+
         controls.TriggerPentagramStart();
         this.Wait(pentagramStartOffset, () => PlayClip());
     }
